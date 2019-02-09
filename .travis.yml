@@ -1,72 +1,37 @@
-# Licensed to the Apache Software Foundation (ASF) under one
-# or more contributor license agreements.  See the NOTICE file
-# distributed with this work for additional information
-# regarding copyright ownership.  The ASF licenses this file
-# to you under the Apache License, Version 2.0 (the
-# "License"); you may not use this file except in compliance
-# with the License.  You may obtain a copy of the License at
-#
-# http://www.apache.org/licenses/LICENSE-2.0
-#
-# Unless required by applicable law or agreed to in writing, software
-# distributed under the License is distributed on an "AS IS" BASIS,
-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-# See the License for the specific language governing permissions and
-# limitations under the License.
-
 os: linux
 dist: trusty
 sudo: required
 language: cpp
 services:
-  - docker
-
-# don't build twice
+- docker
 if: tag IS blank
-
 env:
   global:
-    - PLAT=x86_64
-    - TRAVIS_TAG=linux
-
+  - PLAT=x86_64
+  - TRAVIS_TAG=linux
 before_script:
-  - docker pull rayproject/ray_arrow_manylinux1_x86_64_base:llvm
-
+- docker pull rayproject/ray_arrow_manylinux1_x86_64_base:llvm
 script:
-  - git clone https://github.com/ray-project/arrow
-  - git -C arrow checkout 007e1ca289e979bac80231fa9ee7510be744b60b
-  - mkdir -p dist
-
-  # build wheel
-  - pushd arrow/python/manylinux1
-  - docker run --shm-size=2g
-      -e SETUPTOOLS_SCM_PRETEND_VERSION=0.12.0-RAY
-      -e PYTHON_VERSIONS="2.7,16 2.7,32 3.5,16 3.6,16 3.7,16"
-      -e WHEEL_VERSION=0.31.1
-      -v $PWD:/io
-      -v $PWD/../../:/arrow
-      rayproject/ray_arrow_manylinux1_x86_64_base:llvm /io/build_arrow.sh
-  - popd
-
-  # prepare for deployment
-  - sudo mv arrow/python/manylinux1/dist/* dist/
-
+- git clone https://github.com/ray-project/arrow
+- git -C arrow checkout 007e1ca289e979bac80231fa9ee7510be744b60b
+- mkdir -p dist
+- pushd arrow/python/manylinux1
+- docker run --shm-size=2g -e SETUPTOOLS_SCM_PRETEND_VERSION=0.12.0-RAY -e PYTHON_VERSIONS="2.7,16
+  2.7,32 3.5,16 3.6,16 3.7,16" -e WHEEL_VERSION=0.31.1 -v $PWD:/io -v $PWD/../../:/arrow
+  rayproject/ray_arrow_manylinux1_x86_64_base:llvm /io/build_arrow.sh
+- popd
+- sudo mv arrow/python/manylinux1/dist/* dist/
 deploy:
-  - provider: s3
-    access_key_id: AKIAJ2L7XDUSZVTXI5QA
-    secret_access_key:
-      secure: OS9V8c/fQ9SIOP+Lg2MIz+PtCSKNQVB3mubscDRHKJcCmOp3cB6AKsC/yepbNZvvjDD/ncW2v6KJVsUEneAeDKrZQWSIpNb34yGAvWb7g4xleLxiadNtx6XEzjWaOcg+Y6409e68XeoHq/5ItopWNQ9p9NHXgsoHbZaOurPyHNskNgwBVaObCy+cCak7ifkITDk6cil0OJYnTbOe3NhcU82Fh5BZzS2+G2qNq8tGNcbfINhq0rruWIBuV5WRB/14CmBR+mou74qFSiiodH/MKbOcplx9+BxoOsTnkl7SeyybcK6DX6jxJCuhSBIjct9uT8Qdovv6mzOMkXvLkLKFkHfkTJSGBRIIZEvkPvzhlEriqTcr4tX/MV8HKs/Acz1NnlD0tNEygOr3VaiSLB0dvpz4iCeI9berqSu/jV1VI1X5iVNfChYbOMQ+OYafJMs5WdO60AMWIHy60U511FjAlbS7IubXBjfhoCItIB1xlVNI7FfKaRbNRwP5qvPenB8FUgZpv3UBg5OZDkeBXSNoLydr0w505p6s8Jqnz750TpVYI11fih5D0N3Ea57OwQr9r/rk+Z8aGeTpWj6hIgQiNkrIf2VZnWTApd+utJPw3X3txUEcnOtcdDnMsPuEIeMvIDrrFMRwzClqMNXq9MewU43wp7cCl67YmDBDKubl7Vs=
-    bucket: arrow-wheels
-    acl: public_read
-    region: us-west-2
-    local_dir: dist
-    upload-dir: $TRAVIS_COMMIT
-    skip_cleanup: true
-    only:
-      - master
-    on:
-      repo: ray-project/arrow-build
-
+  provider: s3
+  access_key_id: AKIAJNTVCMLWEWZOOZGQ
+  secret_access_key:
+    secure: ry5YAQQSyEtvg37Rpo36UENEc1c8KKoVDfIz2tjbemC59+0dGVev4Bt4WFO4QEcN2WHWmk0FdJwl9HtagZut5aHtkVcBxtUkFiW8SR21KdlMFXanO0ZtY7VfS2TZfevLK5vVXeeFeUFnJ8962G5t0zy5ufAFCygHr50VQkN4usOR3nbQAtbjlvrsVh1LCbiMHEoewsZ7uo+LqmyQ9yc08OmdfKTFszOdYSLqJN4H+wyJssrN40LPTziATTaIrSiHRHPqLrzQIDJ9+/rY4TL+hSXGMvjOCrkLNLEFPfWlTVdbkGAaZhAM4l6e1ZR6Xj1JBxvnkaCt+X02GTE8kBDxAQA9yUgsQNhukBfJBpZW9ep/VapmMrtDMcOAoX+YUA7MpJWDc3BVy/4l/KV52fpViEv9sLVFUlqvDw7ZUB7+KDKByrRDQa/cBlufZ/z79Wxnce7DynKEenXgiP/IXSK4IHK9/R8jfyPnwtcYOEnDzq5WHAWqZNXMxQXGAMSo+MWsc0AqNZqPDlhdUZUXrkXeAdRvEnFo97t6O/O3sczxFJUflgMnLwlOlQ+UZ6nm/YJh4Bgt2FmOKpYSJrOF5pao5wHs0C8VNDg/v2Fyn+zKkuPRM4oynUydfGmSkevQRTXuciB8uvFfqtPqZnoFpA2SECiUzPSqNPeQUP+lOiEy2BA=
+  bucket: arrow-wheels
+  local-dir: dist
+  upload-dir: $TRAVIS_COMMIT
+  acl: public_read
+  on:
+    repo: pcmoritz/arrow-build
 notifications:
   email:
-    - pcmoritz@gmail.com
+  - pcmoritz@gmail.com
