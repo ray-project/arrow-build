@@ -30,7 +30,7 @@ env:
     - TRAVIS_TAG=linux
 
 before_script:
-  - docker pull rayproject/ray_arrow_manylinux1_x86_64_base:latest
+  - docker pull rayproject/ray_arrow_manylinux1_x86_64_base:llvm
 
 script:
   - git clone https://github.com/ray-project/arrow
@@ -45,7 +45,7 @@ script:
       -e WHEEL_VERSION=0.31.1
       -v $PWD:/io
       -v $PWD/../../:/arrow
-      rayproject/ray_arrow_manylinux1_x86_64_base:latest /io/build_arrow.sh
+      rayproject/ray_arrow_manylinux1_x86_64_base:llvm /io/build_arrow.sh
   - popd
 
   # prepare for deployment
