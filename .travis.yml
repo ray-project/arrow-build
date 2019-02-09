@@ -59,7 +59,7 @@ deploy:
     bucket: arrow-wheels
     acl: public_read
     region: us-west-2
-    local_dir: .whl
+    local_dir: dist
     upload-dir: $TRAVIS_COMMIT
     skip_cleanup: true
     only:
