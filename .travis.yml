@@ -31,7 +31,6 @@ deploy:
   region: us-west-2
   local-dir: dist/
   upload-dir: $TRAVIS_COMMIT
-  acl: public_read
   on:
     repo: pcmoritz/arrow-build
 notifications:
