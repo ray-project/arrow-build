@@ -1,26 +1,29 @@
-os: linux
-dist: trusty
 sudo: required
 language: cpp
-services:
-- docker
-if: tag IS blank
-env:
-  global:
-  - PLAT=x86_64
-  - TRAVIS_TAG=linux
-before_script:
-- docker pull rayproject/ray_arrow_manylinux1_x86_64_base:llvm
-script:
-- git clone https://github.com/ray-project/arrow
-- git -C arrow checkout 007e1ca289e979bac80231fa9ee7510be744b60b
-- mkdir -p dist
-- pushd arrow/python/manylinux1
-- docker run --shm-size=2g -e SETUPTOOLS_SCM_PRETEND_VERSION=0.12.0-RAY -e PYTHON_VERSIONS="2.7,16
-  2.7,32 3.5,16 3.6,16 3.7,16" -e WHEEL_VERSION=0.31.1 -v $PWD:/io -v $PWD/../../:/arrow
-  rayproject/ray_arrow_manylinux1_x86_64_base:llvm /io/build_arrow.sh
-- popd
-- sudo mv arrow/python/manylinux1/dist/* dist/
+
+os: linux
+dist: trusty
+
+matrix:
+  include:
+    services:
+      - docker
+    if: tag IS blank
+    env:
+      global:
+        - PLAT=x86_64
+        - TRAVIS_TAG=linux
+    before_script:
+      - docker pull rayproject/ray_arrow_manylinux1_x86_64_base:llvm
+    script:
+      - git clone https://github.com/ray-project/arrow
+      - git -C arrow checkout 007e1ca289e979bac80231fa9ee7510be744b60b
+      - mkdir -p dist
+      - pushd arrow/python/manylinux1
+      - docker run --shm-size=2g -e SETUPTOOLS_SCM_PRETEND_VERSION=0.12.0-RAY -e PYTHON_VERSIONS="2.7,16 2.7,32 3.5,16 3.6,16 3.7,16" -e WHEEL_VERSION=0.31.1 -v $PWD:/io -v $PWD/../../:/arrow rayproject/ray_arrow_manylinux1_x86_64_base:llvm /io/build_arrow.sh
+      - popd
+      - sudo mv arrow/python/manylinux1/dist/* dist/
+
 deploy:
   provider: s3
   access_key_id: $AWS_ACCESS_KEY_ID
