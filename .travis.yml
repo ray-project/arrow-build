@@ -1,70 +1,67 @@
-sudo: required
+# Licensed to the Apache Software Foundation (ASF) under one
+# or more contributor license agreements.  See the NOTICE file
+# distributed with this work for additional information
+# regarding copyright ownership.  The ASF licenses this file
+# to you under the Apache License, Version 2.0 (the
+# "License"); you may not use this file except in compliance
+# with the License.  You may obtain a copy of the License at
+#
+# http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
 
-matrix:
-  include:
+os: osx
+osx_image: xcode8.3
+language: generic
 
-    - os: linux
-      dist: trusty
-      language: cpp
-      services:
-        - docker
-      if: tag IS blank
-      env:
-        global:
-          - PLAT=x86_64
-          - TRAVIS_TAG=linux
-      before_script:
-        - docker pull rayproject/ray_arrow_manylinux1_x86_64_base:llvm
-      script:
-        - git clone https://github.com/ray-project/arrow
-        - git -C arrow checkout 007e1ca289e979bac80231fa9ee7510be744b60b
-        - mkdir -p dist
-        - pushd arrow/python/manylinux1
-        - docker run --shm-size=2g -e SETUPTOOLS_SCM_PRETEND_VERSION=0.12.0-RAY -e PYTHON_VERSIONS="2.7,16 2.7,32 3.5,16 3.6,16 3.7,16" -e WHEEL_VERSION=0.31.1 -v $PWD:/io -v $PWD/../../:/arrow rayproject/ray_arrow_manylinux1_x86_64_base:llvm /io/build_arrow.sh
-        - popd
-        - sudo mv arrow/python/manylinux1/dist/* dist/
+# don't build twice
+if: tag IS blank
 
-    - os: osx
-      osx_image: xcode8.3
-      language: generic
-      if: tag IS blank
-      env:
-        global:
-          - PLAT=x86_64
-          - TRAVIS_TAG=macos
-          - MACOSX_DEPLOYMENT_TARGET="10.9"
-          - PYARROW_VERSION=0.12.0-RAY
-          - PYARROW_BUILD_VERBOSE=1
-          - MB_PYTHON_VERSION=2.7
-      before_install:
-        - git clone https://github.com/matthew-brett/multibuild # TODO pin it
-        - git -C multibuild checkout 4e7a9396e9a50731bb83fc0d16bb98fb0c4032d7
+env:
+  global:
+    - PLAT=x86_64
+    - TRAVIS_TAG=build-385-wheel-osx-cp37m
+    - MACOSX_DEPLOYMENT_TARGET="10.9"
+    - PYARROW_VERSION=0.12.0-RAY
+    - PYARROW_BUILD_VERBOSE=1
+    - MB_PYTHON_VERSION=3.7
 
-        - git clone https://github.com/ray-project/arrow
-        - git -C arrow checkout 007e1ca289e979bac80231fa9ee7510be744b60b
+before_install:
+  - git clone https://github.com/matthew-brett/multibuild # TODO pin it
+  - git -C multibuild checkout 4e7a9396e9a50731bb83fc0d16bb98fb0c4032d7
 
-        # Also remove artifacts that depend on Boost
-        - brew uninstall boost cgal postgis sfcgal
-        - brew update
-        - brew upgrade cmake
-        - brew install bison flex
+  - git clone -b master https://github.com/ray-project/arrow arrow
+  - git -C arrow checkout 007e1ca289e979bac80231fa9ee7510be744b60b
 
-        - export CONFIG_PATH=`pwd`/arrow/dev/tasks/python-wheels/osx-build.sh
-        - source multibuild/common_utils.sh
-        - source multibuild/travis_osx_steps.sh
+  # Also remove artifacts that depend on Boost
+  - brew uninstall boost cgal postgis sfcgal
+  - brew update
+  - brew upgrade cmake
+  - brew install bison flex
 
-      install:
-        - mkdir -p dist
+  - export CONFIG_PATH=`pwd`/arrow/dev/tasks/python-wheels/osx-build.sh
+  - source multibuild/common_utils.sh
+  - source multibuild/travis_osx_steps.sh
 
-        # multibuild's default clean_code function
-        - clean_code arrow 007e1ca289e979bac80231fa9ee7510be744b60b
+  - before_install
 
-        # the following functions are defined in osx-build.sh
-        - build_wheel arrow
-        - install_run arrow
+install:
+  - mkdir -p dist
 
-        # move built wheels to a top level directory
-        - mv -v arrow/python/dist/* dist/
+  # multibuild's default clean_code function
+  - clean_code arrow 007e1ca289e979bac80231fa9ee7510be744b60b
+
+  # the following functions are defined in osx-build.sh
+  - build_wheel arrow
+  - install_run arrow
+
+  # move built wheels to a top level directory
+  - mv -v arrow/python/dist/* dist/
+
 
 deploy:
   provider: s3
