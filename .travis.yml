@@ -34,6 +34,7 @@ matrix:
           - TRAVIS_TAG=macos
           - MACOSX_DEPLOYMENT_TARGET="10.9"
           - PYARROW_BUILD_VERBOSE=1
+          - MB_PYTHON_VERSION=2.7
       before_install:
         - git clone https://github.com/matthew-brett/multibuild # TODO pin it
         - git -C multibuild checkout 4e7a9396e9a50731bb83fc0d16bb98fb0c4032d7
