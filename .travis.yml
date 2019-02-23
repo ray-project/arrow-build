@@ -45,7 +45,7 @@ before_install:
   - git -C multibuild checkout 4e7a9396e9a50731bb83fc0d16bb98fb0c4032d7
 
   - git clone -b master https://github.com/ray-project/arrow arrow
-  - git -C arrow checkout 73792817a039a16c179cbb2716ab2cf0c918f77e
+  - git -C arrow checkout 54618466ca04f4427dd8cfc3ce31b14ec54e8999
 
   # Also remove artifacts that depend on Boost
   - brew uninstall boost cgal postgis sfcgal
@@ -63,7 +63,7 @@ install:
   - mkdir -p dist
 
   # multibuild's default clean_code function
-  - clean_code arrow 73792817a039a16c179cbb2716ab2cf0c918f77e
+  - clean_code arrow 54618466ca04f4427dd8cfc3ce31b14ec54e8999
 
   # the following functions are defined in osx-build.sh
   - build_wheel arrow
