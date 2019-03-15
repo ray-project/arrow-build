@@ -45,7 +45,7 @@ matrix:
           - TRAVIS_TAG=linux
       before_install: []
       before_script:
-        - docker pull rayproject/arrow_linux_x86_64_base:latest
+        - docker pull rayproject/arrow_linux_x86_64_base:ARROW-4873
       script:
         - git clone https://github.com/pcmoritz/arrow
         - git -C arrow checkout b601a63e4f5a03394dad58ede6b3dfddef58abbd
