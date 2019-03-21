@@ -45,17 +45,17 @@ matrix:
           - TRAVIS_TAG=linux
       before_install: []
       before_script:
-        - docker pull rayproject/arrow_linux_x86_64_base:latest
+        - docker pull rayproject/arrow_linux_x86_64_base:ARROW-4873
       script:
         - git clone https://github.com/pcmoritz/arrow
-        - git -C arrow checkout f708c29b555c0a432c46ec49883cb25aa41d3169
+        - git -C arrow checkout 7988a85d5d0ba20fdcc654e8decb7ad1eb9dabfd
         - mkdir -p dist
         - pushd arrow/python/manylinux1
-        - docker run --shm-size=2g -e UBUNTU_WHEELS=1 -e SETUPTOOLS_SCM_PRETEND_VERSION=0.12.0.RAY -e PYTHON_VERSION="2.7" -e UNICODE_WIDTH=32 -e WHEEL_VERSION=0.31.1 -v $PWD:/io -v $PWD/../../:/arrow rayproject/arrow_linux_x86_64_base:latest /io/build_arrow.sh
-        - docker run --shm-size=2g -e UBUNTU_WHEELS=1 -e SETUPTOOLS_SCM_PRETEND_VERSION=0.12.0.RAY -e PYTHON_VERSION="2.7" -e UNICODE_WIDTH=16 -e WHEEL_VERSION=0.31.1 -v $PWD:/io -v $PWD/../../:/arrow rayproject/arrow_linux_x86_64_base:latest /io/build_arrow.sh
-        - docker run --shm-size=2g -e UBUNTU_WHEELS=1 -e SETUPTOOLS_SCM_PRETEND_VERSION=0.12.0.RAY -e PYTHON_VERSION="3.5" -e UNICODE_WIDTH=16 -e WHEEL_VERSION=0.31.1 -v $PWD:/io -v $PWD/../../:/arrow rayproject/arrow_linux_x86_64_base:latest /io/build_arrow.sh
-        - docker run --shm-size=2g -e UBUNTU_WHEELS=1 -e SETUPTOOLS_SCM_PRETEND_VERSION=0.12.0.RAY -e PYTHON_VERSION="3.6" -e UNICODE_WIDTH=16 -e WHEEL_VERSION=0.31.1 -v $PWD:/io -v $PWD/../../:/arrow rayproject/arrow_linux_x86_64_base:latest /io/build_arrow.sh
-        - docker run --shm-size=2g -e UBUNTU_WHEELS=1 -e SETUPTOOLS_SCM_PRETEND_VERSION=0.12.0.RAY -e PYTHON_VERSION="3.7" -e UNICODE_WIDTH=16 -e WHEEL_VERSION=0.31.1 -v $PWD:/io -v $PWD/../../:/arrow rayproject/arrow_linux_x86_64_base:latest /io/build_arrow.sh
+        - docker run --shm-size=2g -e UBUNTU_WHEELS=1 -e SETUPTOOLS_SCM_PRETEND_VERSION=0.12.0.RAY -e PYTHON_VERSION="2.7" -e UNICODE_WIDTH=32 -e WHEEL_VERSION=0.31.1 -v $PWD:/io -v $PWD/../../:/arrow rayproject/arrow_linux_x86_64_base:ARROW-4873 /io/build_arrow.sh
+        - docker run --shm-size=2g -e UBUNTU_WHEELS=1 -e SETUPTOOLS_SCM_PRETEND_VERSION=0.12.0.RAY -e PYTHON_VERSION="2.7" -e UNICODE_WIDTH=16 -e WHEEL_VERSION=0.31.1 -v $PWD:/io -v $PWD/../../:/arrow rayproject/arrow_linux_x86_64_base:ARROW-4873 /io/build_arrow.sh
+        - docker run --shm-size=2g -e UBUNTU_WHEELS=1 -e SETUPTOOLS_SCM_PRETEND_VERSION=0.12.0.RAY -e PYTHON_VERSION="3.5" -e UNICODE_WIDTH=16 -e WHEEL_VERSION=0.31.1 -v $PWD:/io -v $PWD/../../:/arrow rayproject/arrow_linux_x86_64_base:ARROW-4873 /io/build_arrow.sh
+        - docker run --shm-size=2g -e UBUNTU_WHEELS=1 -e SETUPTOOLS_SCM_PRETEND_VERSION=0.12.0.RAY -e PYTHON_VERSION="3.6" -e UNICODE_WIDTH=16 -e WHEEL_VERSION=0.31.1 -v $PWD:/io -v $PWD/../../:/arrow rayproject/arrow_linux_x86_64_base:ARROW-4873 /io/build_arrow.sh
+        - docker run --shm-size=2g -e UBUNTU_WHEELS=1 -e SETUPTOOLS_SCM_PRETEND_VERSION=0.12.0.RAY -e PYTHON_VERSION="3.7" -e UNICODE_WIDTH=16 -e WHEEL_VERSION=0.31.1 -v $PWD:/io -v $PWD/../../:/arrow rayproject/arrow_linux_x86_64_base:ARROW-4873 /io/build_arrow.sh
         - popd
         - sudo mv arrow/python/manylinux1/dist/pyarrow-0.12.0.RAY-cp27-cp27m-linux_x86_64.whl arrow/python/manylinux1/dist/pyarrow-0.12.0.RAY-cp27-cp27m-manylinux1_x86_64.whl || true
         - sudo mv arrow/python/manylinux1/dist/pyarrow-0.12.0.RAY-cp27-cp27mu-linux_x86_64.whl arrow/python/manylinux1/dist/pyarrow-0.12.0.RAY-cp27-cp27mu-manylinux1_x86_64.whl || true
@@ -79,7 +79,7 @@ before_install:
   - git -C multibuild checkout 4e7a9396e9a50731bb83fc0d16bb98fb0c4032d7
 
   - git clone -b master https://github.com/pcmoritz/arrow arrow
-  - git -C arrow checkout f708c29b555c0a432c46ec49883cb25aa41d3169
+  - git -C arrow checkout 7988a85d5d0ba20fdcc654e8decb7ad1eb9dabfd
 
   # Also remove artifacts that depend on Boost
   - brew uninstall boost cgal postgis sfcgal
@@ -97,7 +97,7 @@ install:
   - mkdir -p dist
 
   # multibuild's default clean_code function
-  - clean_code arrow f708c29b555c0a432c46ec49883cb25aa41d3169
+  - clean_code arrow 7988a85d5d0ba20fdcc654e8decb7ad1eb9dabfd
 
   # the following functions are defined in osx-build.sh
   - build_wheel arrow
@@ -118,7 +118,7 @@ deploy:
   local-dir: dist/
   upload-dir: $TRAVIS_COMMIT
   on:
-    repo: ray-project/arrow-build
+    repo: pcmoritz/arrow-build
 notifications:
   email:
   - pcmoritz@gmail.com
