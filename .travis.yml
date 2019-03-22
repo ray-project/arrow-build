@@ -47,7 +47,7 @@ matrix:
       before_script:
         - docker pull rayproject/arrow_linux_x86_64_base:ARROW-4873
       script:
-        - git clone https://github.com/pcmoritz/arrow
+        - git clone https://github.com/apache/arrow
         - git -C arrow checkout a4e9195808c7395bc924f30cba018b3e0fec07fa
         - mkdir -p dist
         - pushd arrow/python/manylinux1
@@ -118,7 +118,7 @@ deploy:
   local-dir: dist/
   upload-dir: $TRAVIS_COMMIT
   on:
-    repo: pcmoritz/arrow-build
+    repo: ray-project/arrow-build
 notifications:
   email:
   - pcmoritz@gmail.com
