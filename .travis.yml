@@ -118,7 +118,7 @@ deploy:
   local-dir: dist/
   upload-dir: $TRAVIS_COMMIT
   on:
-    repo: pcmoritz/arrow-build
+    repo: ray-project/arrow-build
 notifications:
   email:
   - pcmoritz@gmail.com
