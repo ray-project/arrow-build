@@ -48,20 +48,20 @@ matrix:
         - docker pull rayproject/arrow_linux_x86_64_base:ARROW-4873
       script:
         - git clone https://github.com/apache/arrow
-        - git -C arrow checkout a4e9195808c7395bc924f30cba018b3e0fec07fa
+        - git -C arrow checkout dfb9e7af3cd92722893a3819b6676dfdef08f896
         - mkdir -p dist
         - pushd arrow/python/manylinux1
-        - docker run --shm-size=2g -e UBUNTU_WHEELS=1 -e SETUPTOOLS_SCM_PRETEND_VERSION=0.12.0.RAY -e PYTHON_VERSION="2.7" -e UNICODE_WIDTH=32 -e WHEEL_VERSION=0.31.1 -v $PWD:/io -v $PWD/../../:/arrow rayproject/arrow_linux_x86_64_base:ARROW-4873 /io/build_arrow.sh
-        - docker run --shm-size=2g -e UBUNTU_WHEELS=1 -e SETUPTOOLS_SCM_PRETEND_VERSION=0.12.0.RAY -e PYTHON_VERSION="2.7" -e UNICODE_WIDTH=16 -e WHEEL_VERSION=0.31.1 -v $PWD:/io -v $PWD/../../:/arrow rayproject/arrow_linux_x86_64_base:ARROW-4873 /io/build_arrow.sh
-        - docker run --shm-size=2g -e UBUNTU_WHEELS=1 -e SETUPTOOLS_SCM_PRETEND_VERSION=0.12.0.RAY -e PYTHON_VERSION="3.5" -e UNICODE_WIDTH=16 -e WHEEL_VERSION=0.31.1 -v $PWD:/io -v $PWD/../../:/arrow rayproject/arrow_linux_x86_64_base:ARROW-4873 /io/build_arrow.sh
-        - docker run --shm-size=2g -e UBUNTU_WHEELS=1 -e SETUPTOOLS_SCM_PRETEND_VERSION=0.12.0.RAY -e PYTHON_VERSION="3.6" -e UNICODE_WIDTH=16 -e WHEEL_VERSION=0.31.1 -v $PWD:/io -v $PWD/../../:/arrow rayproject/arrow_linux_x86_64_base:ARROW-4873 /io/build_arrow.sh
-        - docker run --shm-size=2g -e UBUNTU_WHEELS=1 -e SETUPTOOLS_SCM_PRETEND_VERSION=0.12.0.RAY -e PYTHON_VERSION="3.7" -e UNICODE_WIDTH=16 -e WHEEL_VERSION=0.31.1 -v $PWD:/io -v $PWD/../../:/arrow rayproject/arrow_linux_x86_64_base:ARROW-4873 /io/build_arrow.sh
+        - docker run --shm-size=2g -e UBUNTU_WHEELS=1 -e SETUPTOOLS_SCM_PRETEND_VERSION=0.13.0.RAY -e PYTHON_VERSION="2.7" -e UNICODE_WIDTH=32 -e WHEEL_VERSION=0.31.1 -v $PWD:/io -v $PWD/../../:/arrow rayproject/arrow_linux_x86_64_base:ARROW-4873 /io/build_arrow.sh
+        - docker run --shm-size=2g -e UBUNTU_WHEELS=1 -e SETUPTOOLS_SCM_PRETEND_VERSION=0.13.0.RAY -e PYTHON_VERSION="2.7" -e UNICODE_WIDTH=16 -e WHEEL_VERSION=0.31.1 -v $PWD:/io -v $PWD/../../:/arrow rayproject/arrow_linux_x86_64_base:ARROW-4873 /io/build_arrow.sh
+        - docker run --shm-size=2g -e UBUNTU_WHEELS=1 -e SETUPTOOLS_SCM_PRETEND_VERSION=0.13.0.RAY -e PYTHON_VERSION="3.5" -e UNICODE_WIDTH=16 -e WHEEL_VERSION=0.31.1 -v $PWD:/io -v $PWD/../../:/arrow rayproject/arrow_linux_x86_64_base:ARROW-4873 /io/build_arrow.sh
+        - docker run --shm-size=2g -e UBUNTU_WHEELS=1 -e SETUPTOOLS_SCM_PRETEND_VERSION=0.13.0.RAY -e PYTHON_VERSION="3.6" -e UNICODE_WIDTH=16 -e WHEEL_VERSION=0.31.1 -v $PWD:/io -v $PWD/../../:/arrow rayproject/arrow_linux_x86_64_base:ARROW-4873 /io/build_arrow.sh
+        - docker run --shm-size=2g -e UBUNTU_WHEELS=1 -e SETUPTOOLS_SCM_PRETEND_VERSION=0.13.0.RAY -e PYTHON_VERSION="3.7" -e UNICODE_WIDTH=16 -e WHEEL_VERSION=0.31.1 -v $PWD:/io -v $PWD/../../:/arrow rayproject/arrow_linux_x86_64_base:ARROW-4873 /io/build_arrow.sh
         - popd
-        - sudo mv arrow/python/manylinux1/dist/pyarrow-0.12.0.RAY-cp27-cp27m-linux_x86_64.whl arrow/python/manylinux1/dist/pyarrow-0.12.0.RAY-cp27-cp27m-manylinux1_x86_64.whl || true
-        - sudo mv arrow/python/manylinux1/dist/pyarrow-0.12.0.RAY-cp27-cp27mu-linux_x86_64.whl arrow/python/manylinux1/dist/pyarrow-0.12.0.RAY-cp27-cp27mu-manylinux1_x86_64.whl || true
-        - sudo mv arrow/python/manylinux1/dist/pyarrow-0.12.0.RAY-cp35-cp35m-linux_x86_64.whl arrow/python/manylinux1/dist/pyarrow-0.12.0.RAY-cp35-cp35m-manylinux1_x86_64.whl || true
-        - sudo mv arrow/python/manylinux1/dist/pyarrow-0.12.0.RAY-cp36-cp36m-linux_x86_64.whl arrow/python/manylinux1/dist/pyarrow-0.12.0.RAY-cp36-cp36m-manylinux1_x86_64.whl || true
-        - sudo mv arrow/python/manylinux1/dist/pyarrow-0.12.0.RAY-cp37-cp37m-linux_x86_64.whl arrow/python/manylinux1/dist/pyarrow-0.12.0.RAY-cp37-cp37m-manylinux1_x86_64.whl || true
+        - sudo mv arrow/python/manylinux1/dist/pyarrow-0.13.0.RAY-cp27-cp27m-linux_x86_64.whl arrow/python/manylinux1/dist/pyarrow-0.13.0.RAY-cp27-cp27m-manylinux1_x86_64.whl || true
+        - sudo mv arrow/python/manylinux1/dist/pyarrow-0.13.0.RAY-cp27-cp27mu-linux_x86_64.whl arrow/python/manylinux1/dist/pyarrow-0.13.0.RAY-cp27-cp27mu-manylinux1_x86_64.whl || true
+        - sudo mv arrow/python/manylinux1/dist/pyarrow-0.13.0.RAY-cp35-cp35m-linux_x86_64.whl arrow/python/manylinux1/dist/pyarrow-0.13.0.RAY-cp35-cp35m-manylinux1_x86_64.whl || true
+        - sudo mv arrow/python/manylinux1/dist/pyarrow-0.13.0.RAY-cp36-cp36m-linux_x86_64.whl arrow/python/manylinux1/dist/pyarrow-0.13.0.RAY-cp36-cp36m-manylinux1_x86_64.whl || true
+        - sudo mv arrow/python/manylinux1/dist/pyarrow-0.13.0.RAY-cp37-cp37m-linux_x86_64.whl arrow/python/manylinux1/dist/pyarrow-0.13.0.RAY-cp37-cp37m-manylinux1_x86_64.whl || true
         - sudo mv arrow/python/manylinux1/dist/* dist/
         - cat indextemplate | sed s/COMMIT/${TRAVIS_COMMIT}/g > dist/index.html
       install: []
@@ -71,7 +71,7 @@ env:
     - PLAT=x86_64
     - TRAVIS_TAG=build-385-wheel-osx-cp37m
     - MACOSX_DEPLOYMENT_TARGET="10.9"
-    - PYARROW_VERSION=0.12.0.RAY
+    - PYARROW_VERSION=0.13.0.RAY
     - PYARROW_BUILD_VERBOSE=1
 
 before_install:
@@ -79,7 +79,7 @@ before_install:
   - git -C multibuild checkout 4e7a9396e9a50731bb83fc0d16bb98fb0c4032d7
 
   - git clone -b master https://github.com/apache/arrow arrow
-  - git -C arrow checkout a4e9195808c7395bc924f30cba018b3e0fec07fa
+  - git -C arrow checkout dfb9e7af3cd92722893a3819b6676dfdef08f896
 
   # Also remove artifacts that depend on Boost
   - brew uninstall boost cgal postgis sfcgal
@@ -97,7 +97,7 @@ install:
   - mkdir -p dist
 
   # multibuild's default clean_code function
-  - clean_code arrow a4e9195808c7395bc924f30cba018b3e0fec07fa
+  - clean_code arrow dfb9e7af3cd92722893a3819b6676dfdef08f896
 
   # the following functions are defined in osx-build.sh
   - build_wheel arrow
