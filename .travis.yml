@@ -78,7 +78,7 @@ before_install:
   - git clone https://github.com/matthew-brett/multibuild # TODO pin it
   - git -C multibuild checkout 4e7a9396e9a50731bb83fc0d16bb98fb0c4032d7
 
-  - git clone -b master https://github.com/apache/arrow arrow
+  - git clone -b master https://github.com/ant-tech-alliance/arrow arrow
   - git -C arrow checkout 6249e98d3c9f7d8aef4439e17f878d96b3727ff0
 
   # Also remove artifacts that depend on Boost
