@@ -94,6 +94,7 @@ before_install:
   - before_install
 
   - pip install --upgrade pip
+  - pip install requests[security]
 
 install:
   - mkdir -p dist
