@@ -91,9 +91,9 @@ before_install:
   - source multibuild/common_utils.sh
   - source multibuild/travis_osx_steps.sh
 
-  - pip install --upgrade pip
-
   - before_install
+
+  - pip install --upgrade pip
 
 install:
   - mkdir -p dist
