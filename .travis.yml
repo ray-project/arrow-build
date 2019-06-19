@@ -76,7 +76,7 @@ env:
 
 before_install:
   - git clone https://github.com/matthew-brett/multibuild # TODO pin it
-  - git -C multibuild checkout 4e7a9396e9a50731bb83fc0d16bb98fb0c4032d7
+  - git -C multibuild checkout 1a7f31be677185f2dface2643284846e14130c3f
 
   - git clone -b master https://github.com/ant-tech-alliance/arrow arrow
   - git -C arrow checkout c82ad9367cd42b86cd032d9f8d2429df0c1fde51
