@@ -93,6 +93,8 @@ before_install:
 
   - before_install
 
+  - pip install requests[security]
+
 install:
   - mkdir -p dist
 
