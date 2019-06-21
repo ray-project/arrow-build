@@ -48,7 +48,7 @@ matrix:
         - docker pull rayproject/arrow_linux_x86_64_base:ARROW-4873
       script:
         - git clone https://github.com/apache/arrow
-        - git -C arrow checkout a0e1fbb9ef51d05a3f28e221cf8c5d4031a50c93
+        - git -C arrow checkout 9fd7357757bc1dcd1e1c8e4612a2f1bea38ccd04
         - mkdir -p dist
         - pushd arrow/python/manylinux1
         - docker run --shm-size=2g -e UBUNTU_WHEELS=1 -e SETUPTOOLS_SCM_PRETEND_VERSION=0.14.0.RAY -e PYTHON_VERSION="2.7" -e UNICODE_WIDTH=32 -e WHEEL_VERSION=0.31.1 -v $PWD:/io -v $PWD/../../:/arrow rayproject/arrow_linux_x86_64_base:ARROW-4873 /io/build_arrow.sh
@@ -79,7 +79,7 @@ before_install:
   - git -C multibuild checkout 4e7a9396e9a50731bb83fc0d16bb98fb0c4032d7
 
   - git clone -b master https://github.com/apache/arrow arrow
-  - git -C arrow checkout a0e1fbb9ef51d05a3f28e221cf8c5d4031a50c93
+  - git -C arrow checkout 9fd7357757bc1dcd1e1c8e4612a2f1bea38ccd04
 
   # Also remove artifacts that depend on Boost
   - brew uninstall boost cgal postgis sfcgal
@@ -97,7 +97,7 @@ install:
   - mkdir -p dist
 
   # multibuild's default clean_code function
-  - clean_code arrow a0e1fbb9ef51d05a3f28e221cf8c5d4031a50c93
+  - clean_code arrow 9fd7357757bc1dcd1e1c8e4612a2f1bea38ccd04
 
   # the following functions are defined in osx-build.sh
   - build_wheel arrow
