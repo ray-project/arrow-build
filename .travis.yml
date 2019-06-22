@@ -134,6 +134,7 @@ deploy:
   local-dir: dist/
   upload-dir: $TRAVIS_COMMIT
   on:
+    branch: latest-master
     repo: ray-project/arrow-build
 notifications:
   email:
