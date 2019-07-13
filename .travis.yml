@@ -48,7 +48,7 @@ matrix:
         - docker pull rayproject/arrow_linux_x86_64_base:ARROW-5631
       script:
         - git clone https://github.com/apache/arrow
-        - git -C arrow checkout aa9f08c2b927dee09f6193033f1678fb1d42114c
+        - git -C arrow checkout d0d9ecec33413f7ef6c7f91448a802666ad5f871
         - mkdir -p dist
         - pushd arrow
         # Pull testing resources
@@ -84,7 +84,7 @@ before_install:
   - git -C multibuild checkout 4e7a9396e9a50731bb83fc0d16bb98fb0c4032d7
 
   - git clone -b master https://github.com/apache/arrow arrow
-  - git -C arrow checkout aa9f08c2b927dee09f6193033f1678fb1d42114c
+  - git -C arrow checkout d0d9ecec33413f7ef6c7f91448a802666ad5f871
 
   # ARROW-3976 Old versions of git can cause failures when Homebrew prints a
   # donation solicitation. Attempt to update git
@@ -113,7 +113,7 @@ install:
   - mkdir -p dist
 
   # multibuild's default clean_code function
-  - clean_code arrow aa9f08c2b927dee09f6193033f1678fb1d42114c
+  - clean_code arrow d0d9ecec33413f7ef6c7f91448a802666ad5f871
 
   # the following functions are defined in osx-build.sh
   - build_wheel arrow
