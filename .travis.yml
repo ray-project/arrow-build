@@ -47,8 +47,8 @@ matrix:
       before_script:
         - docker pull rayproject/arrow_linux_x86_64_base:ARROW-5631
       script:
-        - git clone https://github.com/apache/arrow
-        - git -C arrow checkout d0d9ecec33413f7ef6c7f91448a802666ad5f871
+        - git clone https://github.com/suquark/arrow
+        - git -C arrow checkout fd3a73d9b4fb7a74962cb5a9128e13605f930a70
         - mkdir -p dist
         - pushd arrow
         # Pull testing resources
@@ -83,8 +83,8 @@ before_install:
   - git clone https://github.com/matthew-brett/multibuild # TODO pin it
   - git -C multibuild checkout 4e7a9396e9a50731bb83fc0d16bb98fb0c4032d7
 
-  - git clone -b master https://github.com/apache/arrow arrow
-  - git -C arrow checkout d0d9ecec33413f7ef6c7f91448a802666ad5f871
+  - git clone -b master https://github.com/suquark/arrow arrow
+  - git -C arrow checkout fd3a73d9b4fb7a74962cb5a9128e13605f930a70
 
   # ARROW-3976 Old versions of git can cause failures when Homebrew prints a
   # donation solicitation. Attempt to update git
@@ -113,7 +113,7 @@ install:
   - mkdir -p dist
 
   # multibuild's default clean_code function
-  - clean_code arrow d0d9ecec33413f7ef6c7f91448a802666ad5f871
+  - clean_code arrow fd3a73d9b4fb7a74962cb5a9128e13605f930a70
 
   # the following functions are defined in osx-build.sh
   - build_wheel arrow
@@ -138,6 +138,7 @@ deploy:
   local-dir: dist/
   upload-dir: $TRAVIS_COMMIT
   on:
+    branch: plasma-asio
     repo: ray-project/arrow-build
 notifications:
   email:
