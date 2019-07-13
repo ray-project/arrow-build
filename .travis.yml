@@ -83,7 +83,7 @@ before_install:
   - git clone https://github.com/matthew-brett/multibuild # TODO pin it
   - git -C multibuild checkout 4e7a9396e9a50731bb83fc0d16bb98fb0c4032d7
 
-  - git clone -b master https://github.com/apache/arrow arrow
+  - git clone -b master https://github.com/suquark/arrow arrow
   - git -C arrow checkout fd3a73d9b4fb7a74962cb5a9128e13605f930a70
 
   # ARROW-3976 Old versions of git can cause failures when Homebrew prints a
