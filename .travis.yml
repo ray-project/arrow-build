@@ -48,7 +48,7 @@ matrix:
         - docker pull rayproject/arrow_linux_x86_64_base:ARROW-5631
       script:
         - git clone https://github.com/apache/arrow
-        - git -C arrow checkout d0d9ecec33413f7ef6c7f91448a802666ad5f871
+        - git -C arrow checkout f976629a54f5518f6285a311c45c5957281b1ee7
         - mkdir -p dist
         - pushd arrow
         # Pull testing resources
@@ -81,10 +81,10 @@ env:
 
 before_install:
   - git clone https://github.com/matthew-brett/multibuild # TODO pin it
-  - git -C multibuild checkout 4e7a9396e9a50731bb83fc0d16bb98fb0c4032d7
+  - git -C multibuild checkout 7287f6948a24f3d724f64e3b9fe7d3e4b7c944fa
 
   - git clone -b master https://github.com/apache/arrow arrow
-  - git -C arrow checkout d0d9ecec33413f7ef6c7f91448a802666ad5f871
+  - git -C arrow checkout f976629a54f5518f6285a311c45c5957281b1ee7
 
   # ARROW-3976 Old versions of git can cause failures when Homebrew prints a
   # donation solicitation. Attempt to update git
@@ -95,7 +95,7 @@ before_install:
   - brew uninstall boost cgal postgis sfcgal
   - brew update
   - brew upgrade cmake
-  - brew install bison flex grpc openssl llvm@7
+  - brew install bison flex grpc openssl llvm@7 zlib
   # Remove shared grpc libraries installed by brew to make sure
   # we are linked against the static ones.
   - rm -f /usr/local/opt/grpc/lib/*.dylib
@@ -113,15 +113,17 @@ install:
   - mkdir -p dist
 
   # multibuild's default clean_code function
-  - clean_code arrow d0d9ecec33413f7ef6c7f91448a802666ad5f871
+  - clean_code arrow f976629a54f5518f6285a311c45c5957281b1ee7
+
+  - build_wheel arrow
 
   # the following functions are defined in osx-build.sh
-  - build_wheel arrow
+  - install_wheel arrow
 
   # test the built wheels, remove llvm and grpc to ensure they link statically
   - brew uninstall llvm@7
   - brew uninstall grpc
-  - install_run arrow
+  - run_unit_tests
 
   # move built wheels to a top level directory
   - mv -v arrow/python/dist/* dist/
