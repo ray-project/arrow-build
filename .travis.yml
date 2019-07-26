@@ -81,7 +81,7 @@ env:
 
 before_install:
   - git clone https://github.com/matthew-brett/multibuild # TODO pin it
-  - git -C multibuild checkout 4e7a9396e9a50731bb83fc0d16bb98fb0c4032d7
+  - git -C multibuild checkout 951b6c64f01853cf2569000bb30ecd01a16bba0b
 
   - git clone -b master https://github.com/apache/arrow arrow
   - git -C arrow checkout f976629a54f5518f6285a311c45c5957281b1ee7
