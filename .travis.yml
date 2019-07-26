@@ -115,8 +115,9 @@ install:
   # multibuild's default clean_code function
   - clean_code arrow f976629a54f5518f6285a311c45c5957281b1ee7
 
+  - build_wheel arrow
+
   # the following functions are defined in osx-build.sh
-  - pip install wheel==0.31.1
   - install_wheel arrow
 
   # test the built wheels, remove llvm and grpc to ensure they link statically
