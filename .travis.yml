@@ -123,7 +123,7 @@ install:
   # test the built wheels, remove llvm and grpc to ensure they link statically
   - brew uninstall llvm@7
   - brew uninstall grpc
-  - run_unit_tests
+  - run_unit_tests arrow
 
   # move built wheels to a top level directory
   - mv -v arrow/python/dist/* dist/
