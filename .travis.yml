@@ -22,16 +22,16 @@ if: tag IS blank
 matrix:
   include:
     - os: osx
-      osx_image: xcode8.3
+      osx_image: xcode9.3
       env: MB_PYTHON_VERSION=2.7
     - os: osx
-      osx_image: xcode8.3
+      osx_image: xcode9.3
       env: MB_PYTHON_VERSION=3.5
     - os: osx
-      osx_image: xcode8.3
+      osx_image: xcode9.3
       env: MB_PYTHON_VERSION=3.6
     - os: osx
-      osx_image: xcode8.3
+      osx_image: xcode9.3
       env: MB_PYTHON_VERSION=3.7
 
     - os: linux
@@ -48,7 +48,7 @@ matrix:
         - docker pull rayproject/arrow_linux_x86_64_base:ARROW-5631
       script:
         - git clone https://github.com/apache/arrow
-        - git -C arrow checkout 141a213a54f4979ab0b94b94928739359a2ee9ad
+        - git -C arrow checkout 86f34aa07e611787d9cc98c6a33b0a0a536dce57
         - mkdir -p dist
         - pushd arrow
         # Pull testing resources
@@ -84,7 +84,7 @@ before_install:
   - git -C multibuild checkout 7287f6948a24f3d724f64e3b9fe7d3e4b7c944fa
 
   - git clone -b master https://github.com/apache/arrow arrow
-  - git -C arrow checkout 141a213a54f4979ab0b94b94928739359a2ee9ad
+  - git -C arrow checkout 86f34aa07e611787d9cc98c6a33b0a0a536dce57
 
   # ARROW-3976 Old versions of git can cause failures when Homebrew prints a
   # donation solicitation. Attempt to update git
@@ -95,7 +95,7 @@ before_install:
   - brew uninstall boost cgal postgis sfcgal
   - brew update
   - brew upgrade cmake
-  - brew install bison flex grpc openssl llvm@7 zlib
+  - travis_wait 120 brew install bison flex grpc openssl@1.1 llvm@7 zlib gperftools
   # Remove shared grpc libraries installed by brew to make sure
   # we are linked against the static ones.
   - rm -f /usr/local/opt/grpc/lib/*.dylib
@@ -113,7 +113,7 @@ install:
   - mkdir -p dist
 
   # multibuild's default clean_code function
-  - clean_code arrow 141a213a54f4979ab0b94b94928739359a2ee9ad
+  - clean_code arrow 86f34aa07e611787d9cc98c6a33b0a0a536dce57
 
   - build_wheel arrow
 
