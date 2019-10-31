@@ -22,16 +22,16 @@ if: tag IS blank
 matrix:
   include:
     - os: osx
-      osx_image: xcode8.3
+      osx_image: xcode9.3
       env: MB_PYTHON_VERSION=2.7
     - os: osx
-      osx_image: xcode8.3
+      osx_image: xcode9.3
       env: MB_PYTHON_VERSION=3.5
     - os: osx
-      osx_image: xcode8.3
+      osx_image: xcode9.3
       env: MB_PYTHON_VERSION=3.6
     - os: osx
-      osx_image: xcode8.3
+      osx_image: xcode9.3
       env: MB_PYTHON_VERSION=3.7
 
     - os: linux
@@ -95,7 +95,7 @@ before_install:
   - brew uninstall boost cgal postgis sfcgal
   - brew update
   - brew upgrade cmake
-  - travis_wait 120 brew install bison flex openssl@1.1 zlib gperftools
+  - travis_wait 120 brew install bison flex grpc openssl@1.1 llvm@7 zlib gperftools
   # Remove shared grpc libraries installed by brew to make sure
   # we are linked against the static ones.
   - rm -f /usr/local/opt/grpc/lib/*.dylib
