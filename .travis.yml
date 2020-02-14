@@ -101,12 +101,10 @@ before_install:
   - brew update
   - brew upgrade cmake
   - travis_wait 120 brew install bison flex grpc openssl@1.1 llvm@7 zlib gperftools
+  - brew switch openssl 1.1.1d
   # Remove shared grpc libraries installed by brew to make sure
   # we are linked against the static ones.
   - rm -f /usr/local/opt/grpc/lib/*.dylib
-  # Make openssl libraries available without fiddling with DYLD_LIBRARY_PATH
-  - ln -s /usr/local/opt/openssl/lib/libcrypto.1.0.0.dylib /usr/local/lib/
-  - ln -s /usr/local/opt/openssl/lib/libssl.1.0.0.dylib /usr/local/lib/
 
   - export CONFIG_PATH=`pwd`/arrow/dev/tasks/python-wheels/osx-build.sh
   - source multibuild/common_utils.sh
